@@ -3,7 +3,7 @@ const ctx = canvas.getContext('2d');
 const canvasWidth  = canvas.width = 800;
 const canvasHeight = canvas.height = 700;
 
-let gameSpeed = 10;
+let gameSpeed = 4;
 
 const backgroundLayer1 = new Image();
 backgroundLayer1.src = 'Assets/backgroundLayers/layer-1.png'
@@ -15,6 +15,15 @@ const backgroundLayer4 = new Image();
 backgroundLayer4.src = 'Assets/backgroundLayers/layer-4.png'
 const backgroundLayer5 = new Image();
 backgroundLayer5.src = 'Assets/backgroundLayers/layer-5.png'
+
+const slider = document.getElementById("slider");
+slider.value = gameSpeed;
+const showGameSpeed = document.getElementById("showGameSpeed");
+showGameSpeed.innerHTML = gameSpeed;
+slider.addEventListener("change", function(e){
+    gameSpeed = e.target.value;
+    showGameSpeed.innerHTML = e.target.value;
+});
 
 class Layer {
     constructor(image, speedModifier){
@@ -44,12 +53,20 @@ class Layer {
     }
 }
 
-const layer4 = new Layer(backgroundLayer4, 0.5);
+const layer1 = new Layer(backgroundLayer1, 0.2);
+const layer2 = new Layer(backgroundLayer2, 0.4);
+const layer3 = new Layer(backgroundLayer3, 0.6);
+const layer4 = new Layer(backgroundLayer4, 0.8);
+const layer5 = new Layer(backgroundLayer5, 1);
+
+const gameObjects = [layer1, layer2, layer3, layer4, layer5];
 
 function animate(){
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-    layer4.update();
-    layer4.draw();
+    gameObjects.forEach(object => {
+        object.update();
+        object.draw();
+    })
     requestAnimationFrame(animate);
 };
 
